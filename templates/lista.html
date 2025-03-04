@@ -31,13 +31,19 @@
                     <form method="post" action="{{ url_for('votar', lista_id=lista.id) }}" id="form-votacion">
                         <div class="alert alert-info mb-4">
                             <h4>Sistema de votación</h4>
-                            <p>Selecciona tus 5 libros favoritos en orden de preferencia:</p>
+                            <p><strong>Instrucciones:</strong></p>
                             <ul>
-                                <li>Tu 1ª elección recibirá 5 puntos</li>
-                                <li>Tu 2ª elección recibirá 4 puntos</li>
-                                <li>Tu 3ª elección recibirá 3 puntos</li>
-                                <li>Tu 4ª elección recibirá 2 puntos</li>
-                                <li>Tu 5ª elección recibirá 1 punto</li>
+                                <li>Puedes votar por <strong>1 a 5 libros</strong> según tu preferencia.</li>
+                                <li>No es obligatorio seleccionar los 5 libros, puedes elegir menos si lo prefieres.</li>
+                                <li>Cada posición otorga una cantidad diferente de puntos:</li>
+                                <ul>
+                                    <li>Tu 1ª elección recibirá 5 puntos</li>
+                                    <li>Tu 2ª elección recibirá 4 puntos</li>
+                                    <li>Tu 3ª elección recibirá 3 puntos</li>
+                                    <li>Tu 4ª elección recibirá 2 puntos</li>
+                                    <li>Tu 5ª elección recibirá 1 punto</li>
+                                </ul>
+                                <li>Si solo quieres dar 5 puntos a un libro, simplemente selecciona ese libro en la 1ª elección y deja las demás opciones en blanco.</li>
                             </ul>
                         </div>
 
@@ -46,7 +52,7 @@
                             <div class="col-md-4 mb-3">
                                 <label for="libro_{{ i }}" class="form-label">{{ i }}ª elección ({{ 6 - i }} puntos)</label>
                                 <select class="form-select libro-select" id="libro_{{ i }}" name="libro_{{ i }}">
-                                    <option value="">Selecciona un libro</option>
+                                    <option value="">-- Seleccionar libro (opcional) --</option>
                                     {% for libro in lista.libros %}
                                     <option value="{{ libro.id }}">{{ libro.titulo }} {% if libro.autor %}({{ libro.autor }}){% endif %}</option>
                                     {% endfor %}

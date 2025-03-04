@@ -190,15 +190,21 @@ def votar(lista_id):
         return redirect(url_for('ver_lista', lista_id=lista_id))
     
     # Procesar los votos (5, 4, 3, 2, 1 puntos)
+    votos_registrados = 0
     for i in range(1, 6):
         libro_id = request.form.get(f'libro_{i}')
         if libro_id:
             puntos = 6 - i  # 5, 4, 3, 2, 1
             voto = Voto(usuario_id=usuario_id, libro_id=libro_id, lista_id=lista_id, puntos=puntos)
             db.session.add(voto)
+            votos_registrados += 1
+    
+    if votos_registrados == 0:
+        flash('Debes seleccionar al menos un libro para votar')
+        return redirect(url_for('ver_lista', lista_id=lista_id))
     
     db.session.commit()
-    flash('Tu voto ha sido registrado correctamente')
+    flash(f'Tu voto ha sido registrado correctamente. Has votado por {votos_registrados} libro(s).')
     return redirect(url_for('resultados', lista_id=lista_id))
 
 @app.route('/lista/<int:lista_id>/resultados')
