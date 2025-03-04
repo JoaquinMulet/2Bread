@@ -7,9 +7,21 @@ from datetime import datetime
 # Configuración de la aplicación
 app = Flask(__name__)
 app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', 'clave_secreta_para_sesiones')
-app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL', 'sqlite:///biblioteca.db')
+
+# Configuración de la base de datos para Railway Volumes
+volume_path = os.environ.get('RAILWAY_VOLUME_MOUNT_PATH', '')
+if volume_path:
+    # Si estamos en Railway con un volumen montado
+    db_path = os.path.join(volume_path, 'biblioteca.db')
+    app.config['SQLALCHEMY_DATABASE_URI'] = f'sqlite:///{db_path}'
+else:
+    # Configuración local o fallback
+    app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL', 'sqlite:///biblioteca.db')
+
+# Convertir postgres:// a postgresql:// si es necesario
 if app.config['SQLALCHEMY_DATABASE_URI'].startswith("postgres://"):
     app.config['SQLALCHEMY_DATABASE_URI'] = app.config['SQLALCHEMY_DATABASE_URI'].replace("postgres://", "postgresql://", 1)
+
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 # Inicializar la base de datos
@@ -232,4 +244,7 @@ with app.app_context():
     db.create_all()
 
 if __name__ == '__main__':
+    # Importar aquí para evitar importaciones circulares
+    from init_db import init_db
+    init_db()
     app.run(debug=True)

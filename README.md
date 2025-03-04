@@ -47,6 +47,36 @@ python app.py
 3. Vota por tus 5 libros favoritos en orden de preferencia
 4. Visualiza los resultados de la votación
 
+## Despliegue en Railway
+
+### Configuración con Railway Volumes
+
+Para desplegar esta aplicación en Railway utilizando Volumes para almacenar la base de datos:
+
+1. Crea un nuevo proyecto en Railway y conecta tu repositorio.
+
+2. Agrega un volumen a tu servicio:
+   - Ve a la pestaña "Volumes" en tu servicio.
+   - Haz clic en "Add Volume".
+   - Configura el punto de montaje como `/app/data` (o cualquier otra ruta).
+   - Selecciona el tamaño adecuado para tu volumen.
+
+3. Configura las variables de entorno:
+   - `SECRET_KEY`: Una clave secreta para las sesiones (genera una clave segura).
+   - `RAILWAY_VOLUME_MOUNT_PATH`: La ruta donde se montará el volumen (por ejemplo, `/app/data`).
+
+4. Despliega la aplicación.
+
+La aplicación detectará automáticamente el volumen y creará/utilizará la base de datos SQLite en esa ubicación.
+
+### Migración de datos existentes
+
+Si ya tienes una base de datos local y deseas migrarla al volumen:
+
+1. Asegúrate de que la base de datos local esté en el repositorio (temporalmente).
+2. Despliega la aplicación - el script `init_db.py` copiará automáticamente la base de datos local al volumen.
+3. Una vez confirmado que funciona, elimina la base de datos del repositorio y actualiza el `.gitignore`.
+
 ## Estructura del Proyecto
 
 - `app.py`: Archivo principal de la aplicación Flask
