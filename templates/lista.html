@@ -1,0 +1,156 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ lista.nombre }} - Sistema de Votación de Libros{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-10 offset-md-1">
+        <div class="card mb-4">
+            <div class="card-header bg-primary text-white">
+                <h2 class="mb-0">{{ lista.nombre }}</h2>
+            </div>
+            <div class="card-body">
+                {% if not session.get('usuario_id') %}
+                <div class="alert alert-warning">
+                    <p>Para poder votar, debes <a href="{{ url_for('login') }}">iniciar sesión</a> primero.</p>
+                </div>
+                {% elif ha_votado %}
+                <div class="alert alert-info">
+                    <p>Ya has votado en esta lista. Puedes ver los <a href="{{ url_for('resultados', lista_id=lista.id) }}">resultados actuales</a>.</p>
+                </div>
+                {% elif not lista.activa %}
+                <div class="alert alert-warning">
+                    <p>Esta lista no está activa para votación. Puedes ver los <a href="{{ url_for('resultados', lista_id=lista.id) }}">resultados actuales</a>.</p>
+                </div>
+                {% endif %}
+
+                <h3 class="mb-3">Libros disponibles para votar</h3>
+                
+                {% if lista.libros %}
+                    {% if session.get('usuario_id') and not ha_votado and lista.activa %}
+                    <form method="post" action="{{ url_for('votar', lista_id=lista.id) }}" id="form-votacion">
+                        <div class="alert alert-info mb-4">
+                            <h4>Sistema de votación</h4>
+                            <p>Selecciona tus 5 libros favoritos en orden de preferencia:</p>
+                            <ul>
+                                <li>Tu 1ª elección recibirá 5 puntos</li>
+                                <li>Tu 2ª elección recibirá 4 puntos</li>
+                                <li>Tu 3ª elección recibirá 3 puntos</li>
+                                <li>Tu 4ª elección recibirá 2 puntos</li>
+                                <li>Tu 5ª elección recibirá 1 punto</li>
+                            </ul>
+                        </div>
+
+                        <div class="row mb-4">
+                            {% for i in range(1, 6) %}
+                            <div class="col-md-4 mb-3">
+                                <label for="libro_{{ i }}" class="form-label">{{ i }}ª elección ({{ 6 - i }} puntos)</label>
+                                <select class="form-select libro-select" id="libro_{{ i }}" name="libro_{{ i }}">
+                                    <option value="">Selecciona un libro</option>
+                                    {% for libro in lista.libros %}
+                                    <option value="{{ libro.id }}">{{ libro.titulo }} {% if libro.autor %}({{ libro.autor }}){% endif %}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            {% endfor %}
+                        </div>
+
+                        <div class="d-grid gap-2 col-md-6 mx-auto">
+                            <button type="submit" class="btn btn-primary btn-lg">Enviar mi votación</button>
+                        </div>
+                    </form>
+                    {% else %}
+                    <div class="table-responsive">
+                        <table class="table table-striped table-hover">
+                            <thead class="table-dark">
+                                <tr>
+                                    <th>Título</th>
+                                    <th>Autor</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for libro in lista.libros %}
+                                <tr>
+                                    <td>{{ libro.titulo }}</td>
+                                    <td>{{ libro.autor if libro.autor else 'No especificado' }}</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                    {% endif %}
+                {% else %}
+                <div class="alert alert-warning">
+                    <p>No hay libros en esta lista.</p>
+                </div>
+                {% endif %}
+
+                <div class="mt-4">
+                    <a href="{{ url_for('index') }}" class="btn btn-secondary">Volver al inicio</a>
+                    <a href="{{ url_for('resultados', lista_id=lista.id) }}" class="btn btn-info">Ver resultados</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Prevenir selección duplicada de libros
+        const selects = document.querySelectorAll('.libro-select');
+        
+        selects.forEach(select => {
+            select.addEventListener('change', function() {
+                const selectedValue = this.value;
+                if (!selectedValue) return;
+                
+                // Deshabilitar esta opción en otros selects
+                selects.forEach(otherSelect => {
+                    if (otherSelect !== this) {
+                        Array.from(otherSelect.options).forEach(option => {
+                            if (option.value === selectedValue) {
+                                option.disabled = true;
+                            }
+                        });
+                        
+                        // Si el valor seleccionado ya estaba seleccionado en otro select, deseleccionarlo
+                        if (otherSelect.value === selectedValue) {
+                            otherSelect.value = '';
+                        }
+                    }
+                });
+                
+                // Habilitar opciones que ya no están seleccionadas
+                const allSelectedValues = Array.from(selects)
+                    .map(s => s.value)
+                    .filter(v => v !== '');
+                
+                selects.forEach(select => {
+                    Array.from(select.options).forEach(option => {
+                        if (option.value && !allSelectedValues.includes(option.value) || option.value === select.value) {
+                            option.disabled = false;
+                        }
+                    });
+                });
+            });
+        });
+        
+        // Validar formulario antes de enviar
+        document.getElementById('form-votacion')?.addEventListener('submit', function(e) {
+            const selectedCount = Array.from(selects)
+                .filter(s => s.value !== '')
+                .length;
+            
+            if (selectedCount === 0) {
+                e.preventDefault();
+                alert('Por favor, selecciona al menos un libro para votar.');
+                return false;
+            }
+            
+            return true;
+        });
+    });
+</script>
+{% endblock %}

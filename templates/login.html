@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+{% block title %}Iniciar Sesión - Sistema de Votación de Libros{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-6 offset-md-3">
+        <div class="card">
+            <div class="card-header bg-primary text-white">
+                <h2 class="mb-0">Iniciar Sesión</h2>
+            </div>
+            <div class="card-body">
+                <form method="post" action="{{ url_for('login') }}">
+                    <div class="mb-3">
+                        <label for="nombre" class="form-label">Tu nombre</label>
+                        <input type="text" class="form-control" id="nombre" name="nombre" required>
+                        <div class="form-text">Ingresa tu nombre para participar en las votaciones.</div>
+                    </div>
+                    
+                    <div class="mb-3 form-check">
+                        <input type="checkbox" class="form-check-input" id="es_admin" name="es_admin">
+                        <label class="form-check-label" for="es_admin">Soy administrador</label>
+                        <div class="form-text">Marca esta casilla si deseas acceder como administrador para crear listas de libros.</div>
+                    </div>
+                    
+                    <button type="submit" class="btn btn-primary">Entrar</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

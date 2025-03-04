@@ -1,0 +1,75 @@
+{% extends 'base.html' %}
+
+{% block title %}Editar Lista: {{ lista.nombre }} - Sistema de Votación de Libros{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-10 offset-md-1">
+        <div class="card mb-4">
+            <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+                <h2 class="mb-0">Editar Lista: {{ lista.nombre }}</h2>
+                <span class="badge {% if lista.activa %}bg-success{% else %}bg-danger{% endif %}">
+                    {% if lista.activa %}Activa{% else %}Inactiva{% endif %}
+                </span>
+            </div>
+            <div class="card-body">
+                <h3 class="mb-3">Añadir nuevo libro</h3>
+                <form method="post" action="{{ url_for('nuevo_libro', lista_id=lista.id) }}" class="mb-4">
+                    <div class="row">
+                        <div class="col-md-5">
+                            <div class="mb-3">
+                                <label for="titulo" class="form-label">Título del libro</label>
+                                <input type="text" class="form-control" id="titulo" name="titulo" required>
+                            </div>
+                        </div>
+                        <div class="col-md-5">
+                            <div class="mb-3">
+                                <label for="autor" class="form-label">Autor (opcional)</label>
+                                <input type="text" class="form-control" id="autor" name="autor">
+                            </div>
+                        </div>
+                        <div class="col-md-2 d-flex align-items-end">
+                            <button type="submit" class="btn btn-primary">Añadir libro</button>
+                        </div>
+                    </div>
+                </form>
+
+                <h3 class="mb-3">Libros en esta lista</h3>
+                {% if lista.libros %}
+                <div class="table-responsive">
+                    <table class="table table-striped table-hover">
+                        <thead class="table-dark">
+                            <tr>
+                                <th>Título</th>
+                                <th>Autor</th>
+                                <th>Votos</th>
+                                <th>Puntos</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for libro in lista.libros %}
+                            <tr>
+                                <td>{{ libro.titulo }}</td>
+                                <td>{{ libro.autor if libro.autor else 'No especificado' }}</td>
+                                <td>{{ libro.votos|length }}</td>
+                                <td>{{ libro.puntos_totales }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                {% else %}
+                <div class="alert alert-info">
+                    <p>No hay libros en esta lista. Añade libros utilizando el formulario de arriba.</p>
+                </div>
+                {% endif %}
+
+                <div class="mt-4">
+                    <a href="{{ url_for('admin') }}" class="btn btn-secondary">Volver al panel de administración</a>
+                    <a href="{{ url_for('resultados', lista_id=lista.id) }}" class="btn btn-info">Ver resultados de votación</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

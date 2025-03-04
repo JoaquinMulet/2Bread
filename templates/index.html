@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+
+{% block title %}Inicio - Sistema de Votación de Libros{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-8 offset-md-2">
+        <div class="card">
+            <div class="card-header bg-primary text-white">
+                <h2 class="mb-0">Bienvenido a la Biblioteca Democrática</h2>
+            </div>
+            <div class="card-body">
+                {% if not session.get('usuario_id') %}
+                <div class="alert alert-info">
+                    <p>Para participar en las votaciones, debes <a href="{{ url_for('login') }}">iniciar sesión</a> primero.</p>
+                </div>
+                {% endif %}
+
+                <h3 class="mb-4">Listas de libros disponibles para votar</h3>
+                
+                {% if listas %}
+                <div class="row">
+                    {% for lista in listas %}
+                    <div class="col-md-6 mb-4">
+                        <div class="card h-100">
+                            <div class="card-body">
+                                <h4 class="card-title">{{ lista.nombre }}</h4>
+                                <p class="card-text text-muted">Creada el {{ lista.fecha_creacion.strftime('%d/%m/%Y') }}</p>
+                                <a href="{{ url_for('ver_lista', lista_id=lista.id) }}" class="btn btn-primary">Ver libros y votar</a>
+                                <a href="{{ url_for('resultados', lista_id=lista.id) }}" class="btn btn-outline-secondary">Ver resultados</a>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+                {% else %}
+                <div class="alert alert-warning">
+                    <p>No hay listas de libros disponibles para votar en este momento.</p>
+                    {% if session.get('es_admin') %}
+                    <p>Como administrador, puedes <a href="{{ url_for('admin') }}">crear nuevas listas</a>.</p>
+                    {% endif %}
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
