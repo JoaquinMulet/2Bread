@@ -1,77 +1,400 @@
+/* ========================================
+   🎃 HALLOWEEN THEME - ESPECIAL DE TERROR 🎃
+   ======================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Creepster&family=Nosifer&family=Eater&display=swap');
+
+:root {
+    --halloween-orange: #ff6b35;
+    --halloween-dark-orange: #f7931e;
+    --halloween-purple: #6a1b9a;
+    --halloween-dark-purple: #4a148c;
+    --halloween-black: #1a1a1a;
+    --halloween-dark-gray: #2d2d2d;
+    --halloween-blood-red: #8b0000;
+    --halloween-ghost-white: #f0f0f0;
+    --halloween-green: #39ff14;
+}
+
 /* Estilos generales */
 body {
     min-height: 100vh;
     display: flex;
     flex-direction: column;
-    background-color: #f8f9fa;
+    background: linear-gradient(135deg, var(--halloween-black) 0%, var(--halloween-dark-purple) 50%, var(--halloween-black) 100%);
+    background-attachment: fixed;
+    color: var(--halloween-ghost-white);
+    font-family: 'Georgia', serif;
+    position: relative;
+    overflow-x: hidden;
+}
+
+/* Efecto de niebla de fondo */
+body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: 
+        radial-gradient(circle at 20% 50%, rgba(255, 107, 53, 0.1) 0%, transparent 50%),
+        radial-gradient(circle at 80% 80%, rgba(106, 27, 154, 0.1) 0%, transparent 50%),
+        radial-gradient(circle at 40% 20%, rgba(139, 0, 0, 0.05) 0%, transparent 50%);
+    pointer-events: none;
+    z-index: 0;
+    animation: fogMove 20s ease-in-out infinite;
+}
+
+@keyframes fogMove {
+    0%, 100% { opacity: 0.3; transform: scale(1); }
+    50% { opacity: 0.5; transform: scale(1.1); }
+}
+
+.container {
+    position: relative;
+    z-index: 1;
 }
 
 .footer {
     margin-top: auto;
+    background: linear-gradient(to top, var(--halloween-black), transparent) !important;
+    border-top: 2px solid var(--halloween-orange);
+    box-shadow: 0 -5px 20px rgba(255, 107, 53, 0.3);
+}
+
+.footer .text-muted {
+    color: var(--halloween-orange) !important;
+    font-family: 'Creepster', cursive;
+    text-shadow: 0 0 10px var(--halloween-orange);
+}
+
+/* Navbar Halloween */
+.navbar {
+    background: linear-gradient(90deg, var(--halloween-black) 0%, var(--halloween-dark-purple) 50%, var(--halloween-black) 100%) !important;
+    border-bottom: 3px solid var(--halloween-orange);
+    box-shadow: 0 5px 20px rgba(255, 107, 53, 0.5), 0 0 30px rgba(106, 27, 154, 0.3);
+}
+
+.navbar-brand {
+    font-family: 'Creepster', cursive;
+    font-size: 1.8rem !important;
+    color: var(--halloween-orange) !important;
+    text-shadow: 0 0 15px var(--halloween-orange), 0 0 25px var(--halloween-dark-orange);
+    letter-spacing: 2px;
+    animation: flicker 3s infinite;
+}
+
+@keyframes flicker {
+    0%, 100% { opacity: 1; text-shadow: 0 0 15px var(--halloween-orange), 0 0 25px var(--halloween-dark-orange); }
+    50% { opacity: 0.8; text-shadow: 0 0 10px var(--halloween-orange), 0 0 15px var(--halloween-dark-orange); }
+}
+
+.nav-link {
+    color: var(--halloween-ghost-white) !important;
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.nav-link::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    width: 0;
+    height: 2px;
+    background: var(--halloween-orange);
+    transition: all 0.3s ease;
+    transform: translateX(-50%);
+}
+
+.nav-link:hover {
+    color: var(--halloween-orange) !important;
+    text-shadow: 0 0 10px var(--halloween-orange);
+}
+
+.nav-link:hover::after {
+    width: 80%;
 }
 
 /* Estilos para las tarjetas */
 .card {
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    border: none;
-    transition: transform 0.3s ease;
+    background: linear-gradient(135deg, rgba(45, 45, 45, 0.95) 0%, rgba(26, 26, 26, 0.95) 100%);
+    border: 2px solid var(--halloween-orange);
+    border-radius: 15px;
+    box-shadow: 
+        0 8px 16px rgba(0, 0, 0, 0.8),
+        0 0 30px rgba(255, 107, 53, 0.3),
+        inset 0 0 20px rgba(255, 107, 53, 0.05);
+    transition: all 0.4s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.card::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(255, 107, 53, 0.1) 0%, transparent 70%);
+    animation: ghostlyGlow 6s ease-in-out infinite;
+    pointer-events: none;
+}
+
+@keyframes ghostlyGlow {
+    0%, 100% { transform: translate(0, 0); opacity: 0.3; }
+    50% { transform: translate(20px, 20px); opacity: 0.6; }
 }
 
 .card:hover {
-    transform: translateY(-5px);
+    transform: translateY(-10px) scale(1.02);
+    box-shadow: 
+        0 15px 30px rgba(0, 0, 0, 0.9),
+        0 0 50px rgba(255, 107, 53, 0.6),
+        0 0 70px rgba(106, 27, 154, 0.4),
+        inset 0 0 30px rgba(255, 107, 53, 0.1);
+    border-color: var(--halloween-dark-orange);
 }
 
 .card-header {
     font-weight: bold;
+    background: linear-gradient(90deg, var(--halloween-dark-purple), var(--halloween-purple)) !important;
+    color: var(--halloween-orange) !important;
+    border-bottom: 2px solid var(--halloween-orange);
+    font-family: 'Eater', cursive;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+    letter-spacing: 1px;
+}
+
+.card-body {
+    color: var(--halloween-ghost-white);
+}
+
+.card-title {
+    color: var(--halloween-orange);
+    font-family: 'Eater', cursive;
+    text-shadow: 0 0 10px rgba(255, 107, 53, 0.5);
+}
+
+.card-text {
+    color: var(--halloween-ghost-white) !important;
 }
 
 /* Estilos para botones */
 .btn {
-    border-radius: 4px;
-    font-weight: 500;
+    border-radius: 8px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    transition: all 0.3s ease;
+    border: 2px solid transparent;
 }
 
 .btn-primary {
-    background-color: #0d6efd;
+    background: linear-gradient(135deg, var(--halloween-orange), var(--halloween-dark-orange));
+    border: 2px solid var(--halloween-orange);
+    color: var(--halloween-black);
+    box-shadow: 0 5px 15px rgba(255, 107, 53, 0.4);
 }
 
 .btn-primary:hover {
-    background-color: #0b5ed7;
+    background: linear-gradient(135deg, var(--halloween-dark-orange), var(--halloween-blood-red));
+    border-color: var(--halloween-dark-orange);
+    transform: translateY(-3px) scale(1.05);
+    box-shadow: 0 10px 25px rgba(255, 107, 53, 0.6);
+    color: white;
+}
+
+.btn-outline-secondary {
+    border: 2px solid var(--halloween-purple);
+    color: var(--halloween-purple);
+    background: transparent;
+}
+
+.btn-outline-secondary:hover {
+    background: var(--halloween-purple);
+    border-color: var(--halloween-dark-purple);
+    color: white;
+    transform: translateY(-3px);
+    box-shadow: 0 10px 25px rgba(106, 27, 154, 0.5);
+}
+
+.btn-success {
+    background: linear-gradient(135deg, var(--halloween-green), #2ecc71);
+    border: 2px solid var(--halloween-green);
+    color: var(--halloween-black);
+}
+
+.btn-success:hover {
+    transform: translateY(-3px) scale(1.05);
+    box-shadow: 0 10px 25px rgba(57, 255, 20, 0.5);
+}
+
+.btn-danger {
+    background: linear-gradient(135deg, var(--halloween-blood-red), #c0392b);
+    border: 2px solid var(--halloween-blood-red);
+}
+
+.btn-danger:hover {
+    transform: translateY(-3px) scale(1.05);
+    box-shadow: 0 10px 25px rgba(139, 0, 0, 0.6);
 }
 
 /* Estilos para tablas */
 .table {
-    box-shadow: 0 2px 3px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.8);
+    border-radius: 10px;
+    overflow: hidden;
+    background: rgba(45, 45, 45, 0.9);
+    color: var(--halloween-ghost-white);
 }
 
 .table-dark th {
-    background-color: #0d6efd !important;
+    background: linear-gradient(90deg, var(--halloween-dark-purple), var(--halloween-purple)) !important;
+    color: var(--halloween-orange) !important;
+    border-bottom: 2px solid var(--halloween-orange);
+    text-shadow: 0 0 5px rgba(255, 107, 53, 0.5);
+}
+
+.table tbody tr {
+    background: rgba(26, 26, 26, 0.6);
+    transition: all 0.3s ease;
+    border-bottom: 1px solid rgba(255, 107, 53, 0.2);
+}
+
+.table tbody tr:hover {
+    background: rgba(106, 27, 154, 0.3);
+    transform: scale(1.02);
+    box-shadow: 0 0 20px rgba(255, 107, 53, 0.3);
 }
 
 /* Estilos para el sistema de votación */
 .libro-select {
-    border: 2px solid #ced4da;
+    border: 2px solid var(--halloween-purple);
+    background: rgba(45, 45, 45, 0.9);
+    color: var(--halloween-ghost-white);
+    border-radius: 8px;
+    transition: all 0.3s ease;
 }
 
 .libro-select:focus {
-    border-color: #0d6efd;
-    box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+    border-color: var(--halloween-orange);
+    box-shadow: 0 0 0 0.25rem rgba(255, 107, 53, 0.3), 0 0 20px rgba(255, 107, 53, 0.5);
+    background: rgba(45, 45, 45, 1);
+}
+
+.libro-select option {
+    background: var(--halloween-dark-gray);
+    color: var(--halloween-ghost-white);
 }
 
 /* Estilos para las posiciones en los resultados */
+.badge {
+    background: linear-gradient(135deg, var(--halloween-orange), var(--halloween-dark-orange));
+    color: var(--halloween-black);
+    text-shadow: none;
+    font-weight: bold;
+    box-shadow: 0 3px 10px rgba(255, 107, 53, 0.5);
+}
+
 .badge.fs-5 {
-    width: 30px;
-    height: 30px;
+    width: 40px;
+    height: 40px;
     display: flex;
     align-items: center;
     justify-content: center;
     border-radius: 50%;
+    animation: pulse 2s infinite;
 }
 
-/* Estilos para el gráfico de resultados */
-.chart-container {
-    margin-top: 20px;
-    margin-bottom: 20px;
+@keyframes pulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.1); box-shadow: 0 0 20px rgba(255, 107, 53, 0.8); }
+}
+
+.badge.bg-warning {
+    background: linear-gradient(135deg, #ffd700, #ffA500) !important;
+}
+
+.badge.bg-secondary {
+    background: linear-gradient(135deg, #95a5a6, #7f8c8d) !important;
+}
+
+.badge.bg-info {
+    background: linear-gradient(135deg, var(--halloween-purple), var(--halloween-dark-purple)) !important;
+    color: white;
+}
+
+/* Alertas */
+.alert {
+    border: 2px solid var(--halloween-orange);
+    background: rgba(45, 45, 45, 0.95);
+    color: var(--halloween-ghost-white);
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+}
+
+.alert-info {
+    border-color: var(--halloween-purple);
+    background: rgba(106, 27, 154, 0.2);
+}
+
+.alert-warning {
+    border-color: var(--halloween-dark-orange);
+    background: rgba(247, 147, 30, 0.2);
+}
+
+.alert a {
+    color: var(--halloween-orange);
+    text-decoration: underline;
+    font-weight: bold;
+}
+
+.alert a:hover {
+    color: var(--halloween-dark-orange);
+    text-shadow: 0 0 10px var(--halloween-orange);
+}
+
+/* Formularios */
+input[type="text"],
+input[type="password"],
+textarea,
+select {
+    background: rgba(45, 45, 45, 0.9) !important;
+    border: 2px solid var(--halloween-purple) !important;
+    color: var(--halloween-ghost-white) !important;
+    border-radius: 8px;
+}
+
+input[type="text"]:focus,
+input[type="password"]:focus,
+textarea:focus,
+select:focus {
+    border-color: var(--halloween-orange) !important;
+    box-shadow: 0 0 0 0.25rem rgba(255, 107, 53, 0.3), 0 0 20px rgba(255, 107, 53, 0.4) !important;
+    background: rgba(45, 45, 45, 1) !important;
+}
+
+label {
+    color: var(--halloween-orange);
+    font-weight: bold;
+    text-shadow: 0 0 5px rgba(255, 107, 53, 0.3);
+}
+
+.form-check-input {
+    background: rgba(45, 45, 45, 0.9);
+    border: 2px solid var(--halloween-purple);
+}
+
+.form-check-input:checked {
+    background-color: var(--halloween-orange);
+    border-color: var(--halloween-orange);
+}
+
+.form-check-label {
+    color: var(--halloween-ghost-white);
 }
 
 /* Estilos responsivos */
@@ -83,18 +406,74 @@ body {
     .table-responsive {
         font-size: 0.9rem;
     }
+    
+    .navbar-brand {
+        font-size: 1.4rem !important;
+    }
 }
 
 /* Animaciones */
 @keyframes fadeIn {
-    from { opacity: 0; }
-    to { opacity: 1; }
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes slideInLeft {
+    from { opacity: 0; transform: translateX(-50px); }
+    to { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes slideInRight {
+    from { opacity: 0; transform: translateX(50px); }
+    to { opacity: 1; transform: translateX(0); }
 }
 
 .card {
-    animation: fadeIn 0.5s ease-in-out;
+    animation: fadeIn 0.6s ease-out;
 }
 
 .alert {
-    animation: fadeIn 0.3s ease-in-out;
+    animation: slideInRight 0.5s ease-out;
+}
+
+/* Efecto de araña colgante (decorativo) */
+@keyframes spiderDrop {
+    0% { transform: translateY(-100px); }
+    100% { transform: translateY(0); }
+}
+
+/* Efecto de murciélagos volando */
+@keyframes batFly {
+    0%, 100% { transform: translateX(0) translateY(0); }
+    25% { transform: translateX(10px) translateY(-5px); }
+    75% { transform: translateX(-10px) translateY(5px); }
+}
+
+/* Texto decorativo de Halloween */
+.halloween-title {
+    font-family: 'Creepster', cursive;
+    color: var(--halloween-orange);
+    text-shadow: 
+        0 0 10px var(--halloween-orange),
+        0 0 20px var(--halloween-dark-orange),
+        2px 2px 4px rgba(0, 0, 0, 0.8);
+    letter-spacing: 2px;
+}
+
+/* Scrollbar personalizado */
+::-webkit-scrollbar {
+    width: 12px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--halloween-black);
+}
+
+::-webkit-scrollbar-thumb {
+    background: linear-gradient(180deg, var(--halloween-orange), var(--halloween-purple));
+    border-radius: 6px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(180deg, var(--halloween-dark-orange), var(--halloween-dark-purple));
 }

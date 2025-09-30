@@ -1,16 +1,16 @@
 {% extends 'base.html' %}
 
-{% block title %}Administración - Sistema de Votación de Libros{% endblock %}
+{% block title %}🧙 Administración - Especial de Terror {% endblock %}
 
 {% block content %}
 <div class="row">
     <div class="col-md-10 offset-md-1">
         <div class="card mb-4">
             <div class="card-header bg-primary text-white">
-                <h2 class="mb-0">Panel de Administración</h2>
+                <h2 class="mb-0 halloween-title">🧙 Panel de Administración del Terror 🦇</h2>
             </div>
             <div class="card-body">
-                <h3 class="mb-3">Crear nueva lista de libros</h3>
+                <h3 class="mb-3 halloween-title">📚 Crear Nueva Lista de Terror 🕯️</h3>
                 <form method="post" action="{{ url_for('nueva_lista') }}" class="mb-4">
                     <div class="row">
                         <div class="col-md-8">
@@ -20,12 +20,12 @@
                             </div>
                         </div>
                         <div class="col-md-4 d-flex align-items-end">
-                            <button type="submit" class="btn btn-primary">Crear lista</button>
+                            <button type="submit" class="btn btn-primary">🎃 Crear lista</button>
                         </div>
                     </div>
                 </form>
 
-                <h3 class="mb-3">Listas de libros existentes</h3>
+                <h3 class="mb-3 halloween-title">📖 Listas de Terror Existentes 💀</h3>
                 {% if listas %}
                 <div class="table-responsive">
                     <table class="table table-striped table-hover">
@@ -49,11 +49,11 @@
                                 </td>
                                 <td>
                                     <div class="btn-group" role="group">
-                                        <a href="{{ url_for('editar_lista', lista_id=lista.id) }}" class="btn btn-sm btn-primary">Editar libros</a>
-                                        <a href="{{ url_for('resultados', lista_id=lista.id) }}" class="btn btn-sm btn-info">Ver resultados</a>
+                                        <a href="{{ url_for('editar_lista', lista_id=lista.id) }}" class="btn btn-sm btn-primary">✏️ Editar libros</a>
+                                        <a href="{{ url_for('resultados', lista_id=lista.id) }}" class="btn btn-sm btn-info">📊 Ver resultados</a>
                                         <form method="post" action="{{ url_for('toggle_lista', lista_id=lista.id) }}" class="d-inline">
                                             <button type="submit" class="btn btn-sm {% if lista.activa %}btn-warning{% else %}btn-success{% endif %}">
-                                                {% if lista.activa %}Desactivar{% else %}Activar{% endif %}
+                                                {% if lista.activa %}🔴 Desactivar{% else %}✅ Activar{% endif %}
                                             </button>
                                         </form>
                                     </div>
@@ -65,7 +65,7 @@
                 </div>
                 {% else %}
                 <div class="alert alert-info">
-                    <p>No hay listas de libros creadas. Crea una nueva lista utilizando el formulario de arriba.</p>
+                    <p>🦇 No hay listas de libros de terror creadas. Crea una nueva lista utilizando el formulario de arriba.</p>
                 </div>
                 {% endif %}
             </div>

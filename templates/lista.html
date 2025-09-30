@@ -1,13 +1,13 @@
 {% extends 'base.html' %}
 
-{% block title %}{{ lista.nombre }} - Sistema de Votación de Libros{% endblock %}
+{% block title %}🎃 {{ lista.nombre }} - Especial de Terror {% endblock %}
 
 {% block content %}
 <div class="row">
     <div class="col-md-10 offset-md-1">
         <div class="card mb-4">
             <div class="card-header bg-primary text-white">
-                <h2 class="mb-0">{{ lista.nombre }}</h2>
+                <h2 class="mb-0 halloween-title">📖 {{ lista.nombre }} 🕷️</h2>
             </div>
             <div class="card-body">
                 {% if not session.get('usuario_id') %}
@@ -24,18 +24,18 @@
                 </div>
                 {% endif %}
 
-                <h3 class="mb-3">Libros disponibles para votar</h3>
+                <h3 class="mb-3 halloween-title">💀 Libros de Terror Disponibles 🦇</h3>
                 
                 {% if lista.libros %}
                     {% if session.get('usuario_id') and not ha_votado and lista.activa %}
                     <form method="post" action="{{ url_for('votar', lista_id=lista.id) }}" id="form-votacion">
                         <div class="alert alert-info mb-4">
-                            <h4>Sistema de votación</h4>
+                            <h4>🗳️ Sistema de Votación Macabra</h4>
                             <p><strong>Instrucciones:</strong></p>
                             <ul>
-                                <li>Puedes votar por <strong>1 a 5 libros</strong> según tu preferencia.</li>
-                                <li>No es obligatorio seleccionar los 5 libros, puedes elegir menos si lo prefieres.</li>
-                                <li>Cada posición otorga una cantidad diferente de puntos:</li>
+                                <li>🎃 Puedes votar por <strong>1 a 5 libros</strong> según tu preferencia.</li>
+                                <li>👻 No es obligatorio seleccionar los 5 libros, puedes elegir menos si lo prefieres.</li>
+                                <li>💎 Cada posición otorga una cantidad diferente de puntos:</li>
                                 <ul>
                                     <li>Tu 1ª elección recibirá 5 puntos</li>
                                     <li>Tu 2ª elección recibirá 4 puntos</li>
@@ -43,7 +43,7 @@
                                     <li>Tu 4ª elección recibirá 2 puntos</li>
                                     <li>Tu 5ª elección recibirá 1 punto</li>
                                 </ul>
-                                <li>Si solo quieres dar 5 puntos a un libro, simplemente selecciona ese libro en la 1ª elección y deja las demás opciones en blanco.</li>
+                                <li>🕯️ Si solo quieres dar 5 puntos a un libro, simplemente selecciona ese libro en la 1ª elección y deja las demás opciones en blanco.</li>
                             </ul>
                         </div>
 
@@ -62,7 +62,7 @@
                         </div>
 
                         <div class="d-grid gap-2 col-md-6 mx-auto">
-                            <button type="submit" class="btn btn-primary btn-lg">Enviar mi votación</button>
+                            <button type="submit" class="btn btn-primary btn-lg">🧛 Enviar mi Votación de Terror</button>
                         </div>
                     </form>
                     {% else %}
@@ -87,13 +87,13 @@
                     {% endif %}
                 {% else %}
                 <div class="alert alert-warning">
-                    <p>No hay libros en esta lista.</p>
+                    <p>🦇 No hay libros de terror en esta lista...</p>
                 </div>
                 {% endif %}
 
                 <div class="mt-4">
-                    <a href="{{ url_for('index') }}" class="btn btn-secondary">Volver al inicio</a>
-                    <a href="{{ url_for('resultados', lista_id=lista.id) }}" class="btn btn-info">Ver resultados</a>
+                    <a href="{{ url_for('index') }}" class="btn btn-secondary">🏚️ Volver al inicio</a>
+                    <a href="{{ url_for('resultados', lista_id=lista.id) }}" class="btn btn-info">🕯️ Ver resultados</a>
                 </div>
             </div>
         </div>

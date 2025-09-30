@@ -1,16 +1,16 @@
 {% extends 'base.html' %}
 
-{% block title %}Resultados: {{ lista.nombre }} - Sistema de Votación de Libros{% endblock %}
+{% block title %}🏆 Resultados: {{ lista.nombre }} - Especial de Terror {% endblock %}
 
 {% block content %}
 <div class="row">
     <div class="col-md-10 offset-md-1">
         <div class="card mb-4">
             <div class="card-header bg-primary text-white">
-                <h2 class="mb-0">Resultados de Votación: {{ lista.nombre }}</h2>
+                <h2 class="mb-0 halloween-title">🏆 Resultados de Votación: {{ lista.nombre }} 🕯️</h2>
             </div>
             <div class="card-body">
-                <h3 class="mb-3">Clasificación de libros por puntos</h3>
+                <h3 class="mb-3 halloween-title">📊 Clasificación de Libros de Terror 💀</h3>
                 
                 {% if resultados %}
                 <div class="table-responsive">
@@ -53,22 +53,22 @@
                 </div>
 
                 <div class="mt-4">
-                    <h4>Gráfico de resultados</h4>
+                    <h4 class="halloween-title">📊 Gráfico Macabro de Resultados</h4>
                     <div class="chart-container" style="position: relative; height:400px;">
                         <canvas id="resultsChart"></canvas>
                     </div>
                 </div>
                 {% else %}
                 <div class="alert alert-info">
-                    <p>Aún no hay votos registrados para esta lista.</p>
+                    <p>🦇 Aún no hay votos registrados para esta lista de terror...</p>
                 </div>
                 {% endif %}
 
                 <div class="mt-4">
-                    <a href="{{ url_for('index') }}" class="btn btn-secondary">Volver al inicio</a>
-                    <a href="{{ url_for('ver_lista', lista_id=lista.id) }}" class="btn btn-primary">Ver lista de libros</a>
+                    <a href="{{ url_for('index') }}" class="btn btn-secondary">🏚️ Volver al inicio</a>
+                    <a href="{{ url_for('ver_lista', lista_id=lista.id) }}" class="btn btn-primary">📖 Ver lista de libros</a>
                     {% if session.get('es_admin') %}
-                    <a href="{{ url_for('editar_lista', lista_id=lista.id) }}" class="btn btn-warning">Editar lista</a>
+                    <a href="{{ url_for('editar_lista', lista_id=lista.id) }}" class="btn btn-warning">✏️ Editar lista</a>
                     {% endif %}
                 </div>
             </div>
@@ -102,26 +102,26 @@
                     backgroundColor: [
                         {% for resultado in resultados %}
                         {% if loop.index == 1 %}
-                        'rgba(255, 193, 7, 0.8)',  // Oro
+                        'rgba(255, 107, 53, 0.8)',  // Halloween Orange
                         {% elif loop.index == 2 %}
-                        'rgba(192, 192, 192, 0.8)',  // Plata
+                        'rgba(106, 27, 154, 0.8)',  // Halloween Purple
                         {% elif loop.index == 3 %}
-                        'rgba(205, 127, 50, 0.8)',  // Bronce
+                        'rgba(139, 0, 0, 0.8)',  // Blood Red
                         {% else %}
-                        'rgba(54, 162, 235, 0.6)',
+                        'rgba(57, 255, 20, 0.6)',  // Halloween Green
                         {% endif %}
                         {% endfor %}
                     ],
                     borderColor: [
                         {% for resultado in resultados %}
                         {% if loop.index == 1 %}
-                        'rgba(255, 193, 7, 1)',
+                        'rgba(255, 107, 53, 1)',
                         {% elif loop.index == 2 %}
-                        'rgba(192, 192, 192, 1)',
+                        'rgba(106, 27, 154, 1)',
                         {% elif loop.index == 3 %}
-                        'rgba(205, 127, 50, 1)',
+                        'rgba(139, 0, 0, 1)',
                         {% else %}
-                        'rgba(54, 162, 235, 1)',
+                        'rgba(57, 255, 20, 1)',
                         {% endif %}
                         {% endfor %}
                     ],
@@ -136,14 +136,24 @@
                         beginAtZero: true,
                         title: {
                             display: true,
-                            text: 'Puntos'
+                            text: '💎 Puntos',
+                            color: '#ff6b35'
+                        },
+                        ticks: {
+                            color: '#f0f0f0'
+                        },
+                        grid: {
+                            color: 'rgba(255, 107, 53, 0.1)'
                         }
                     },
                     x: {
                         title: {
                             display: true,
-                            text: 'Libros'
+                            text: '📚 Libros de Terror',
+                            color: '#ff6b35'
                         },
+                        ticks: {
+                            color: '#f0f0f0',
                         ticks: {
                             maxRotation: 45,
                             minRotation: 45
@@ -153,7 +163,12 @@
                 plugins: {
                     title: {
                         display: true,
-                        text: 'Resultados de la votación'
+                        text: '🎃 Resultados de la Votación de Terror',
+                        color: '#ff6b35',
+                        font: {
+                            size: 18,
+                            family: 'Eater, cursive'
+                        }
                     },
                     tooltip: {
                         callbacks: {
